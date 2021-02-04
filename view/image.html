@@ -28,7 +28,7 @@
     <div class="row justify-content-center mt-4">
         <div class="col-md-5 mx-auto">
             <ul class="list-group" id="list-group">
-                <li class="list-group-item" id="url">URL: </li>
+                <li class="list-group-item" id="url"></li>
                 <li class="list-group-item" id="err" >Error: </li>
                 <li class="list-group-item" id="msg" >Message: </li>
             </ul>
@@ -49,7 +49,8 @@
             const response = await request.json()
             if(!response.error){
                 $list_group.style.display = "block"
-                document.getElementById("url").textContent += response.data
+                document.getElementById("url")
+                    .innerHTML = `URL: <a target="_blank" href='${response.data}'>${response.data}</a>`
                 document.getElementById("err").textContent += response.error
                 document.getElementById("msg").textContent += response.message
             }

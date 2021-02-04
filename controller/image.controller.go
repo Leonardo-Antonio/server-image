@@ -61,7 +61,7 @@ func (i *Image) SaveImage(ctx *fiber.Ctx) error {
 		helper.MSG,
 		"image was saved successfully",
 		false,
-		ctx.Hostname() + "/public/image/" + fileName,
+		ctx.Protocol() + "://" + ctx.Hostname() + "/public/image/" + fileName,
 		)
 	return ctx.Status(http.StatusOK).JSON(res)
 }
