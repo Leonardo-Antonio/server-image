@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -18,10 +19,17 @@ func NewImage() *Image {
 }
 
 func (i *Image) Show(ctx *fiber.Ctx) error {
-	if !helper.Login {
+	session, err := helper.Store.Get(ctx)
+	if err != nil {
+		panic(err)
+	}
+	login, _ := strconv.ParseBool(fmt.Sprintf("%v", session.Get("login")))
+	fmt.Println(login)
+	if !login {
 		return ctx.Status(http.StatusForbidden).
 			Redirect("login")
 	}
+
 	logger, err := ioutil.ReadFile("public/image/logger.txt")
 	if err != nil {
 		panic(err)
@@ -45,11 +53,17 @@ func (i *Image) Login(ctx *fiber.Ctx) error {
 
 func (i *Image) Verify(ctx *fiber.Ctx) error {
 	if ctx.FormValue("password") != "cmcx100pre" {
-		helper.Login = false
 		return ctx.Status(http.StatusForbidden).
 			Redirect("/")
 	}
-	helper.Login = true
+
+	session, err := helper.Store.Get(ctx)
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer session.Save()
+	session.Set("login", true)
+
 	return ctx.Status(http.StatusOK).
 		Redirect("images")
 }
