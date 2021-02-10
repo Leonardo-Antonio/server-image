@@ -20,7 +20,7 @@ func NewImage() *Image {
 func (i *Image) Show(ctx *fiber.Ctx) error {
 	if !helper.Login {
 		return ctx.Status(http.StatusForbidden).
-			Redirect("/")
+			Redirect("login")
 	}
 	logger, err := ioutil.ReadFile("public/image/logger.txt")
 	if err != nil {
