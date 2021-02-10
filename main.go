@@ -1,7 +1,7 @@
 package main
 
 func main() {
-	app := NewAppServer("8080")
+	app := NewAppServer("")
 	app.Middlewares()
 	app.Routers()
 	app.Listening()
