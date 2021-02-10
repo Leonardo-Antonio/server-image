@@ -1,0 +1,19 @@
+{% extends 'shared/_layout.html' %}
+
+{% block title %} Show Images {% endblock %}
+
+{% block body %}
+    <div class="row justify-content-center">
+        {% for link in links %}
+            <div class="col-md-4 my-2">
+                <div class="card">
+                    <div class="card-body">
+                        <a href="{{link}}" target="_blank">
+                            <img src="{{link}}" width="300em">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
